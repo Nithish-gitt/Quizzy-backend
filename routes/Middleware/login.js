@@ -21,6 +21,8 @@ router.post('/login', async (req, res) => {
 
 // ✅ CHECK AUTH
 router.get('/check-auth', (req, res) => {
+  console.log('Cookies:', req.headers.cookie);
+  console.log('Session:', req.session);
   if (req.session.user) {
     return res.json({ authenticated: true, user: req.session.user });
   }
