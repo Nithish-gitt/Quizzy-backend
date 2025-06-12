@@ -59,7 +59,7 @@ router.post('/:id/send-email', async(req, res) => {
     try{
   const getcontact = await Contact.findById(req.params.id);
   const token = jwt.sign({ id: req.params.id,  email: getcontact.email }, JWT_SECRET, { expiresIn: '15m' });
-  const resetLink = `${BASE_URL}/reset-password/${token}`;
+  const resetLink = `${BASE_URL}/Quizzy/#/reset-password/${token}`;
   const to = getcontact.email;
   const subject = `Login Request Approved`;
   const text = `Hi ${getcontact.name}. your login request approved.\n
