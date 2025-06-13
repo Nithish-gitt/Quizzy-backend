@@ -59,7 +59,7 @@ app.use('/api/candidates',candidateRoutes);
 
 
 
-// app.set('trust proxy', 1); // required by render behind proxy
+app.set('trust proxy', true); // required by render behind proxy
 
 app.use(session({
   name: 'session',
