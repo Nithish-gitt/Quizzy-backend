@@ -14,18 +14,24 @@ router.post('/login', async (req, res) => {
 
     req.session.user = { id: user._id, username: user.username };
 
-    res.json({ message: 'Login successful' });
-  } catch (err) {
-    console.error('Login error:', err);
-    res.status(500).json({ message: 'Server error' });
-  }
+  res.json({ message: 'Login successful' });
 });
 
 router.get('/check-auth', (req, res) => {
-  if (req.session?.user) {
-    return res.json({ authenticated: true, user: req.session.user });
+  try {
+    console.log('Session:', req.session);
+
+    // Optional chaining to safely access user data
+    if (req.session?.user) {
+      console.log('/check-auth-logs:', req.session.user.username);
+      return res.json({ authenticated: true, user: req.session.user });
+    }
+
+    res.status(401).json({ authenticated: false });
+  } catch (err) {
+    console.error('🔥 /check-auth error:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
-  res.status(401).json({ authenticated: false });
 });
 
 router.post('/logout', (req, res) => {
