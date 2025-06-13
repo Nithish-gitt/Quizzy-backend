@@ -14,11 +14,11 @@ const contactRoutes = require('./routes/contact');
 const quizRoutes = require('./routes/getquiz');
 
 const app = express();
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 const dotenv = require('dotenv');
 const { server, mongo_url, hashkey } = require('./variables/variables');
 dotenv.config();
-app.use(express.json());
+// app.use(express.json());
 
 app.use(cors({
   origin: server, // or '*' for all origins (not recommended in production)
@@ -64,6 +64,8 @@ app.use(cookieSession({
   secure: false, // true if HTTPS
   sameSite: 'none',
 }));
+app.use(express.json());
+app.use(bodyParser.json());
 
 
 app.use('/api', loginRoutes);
