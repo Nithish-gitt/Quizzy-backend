@@ -14,8 +14,13 @@ router.post('/login', async (req, res) => {
 
     req.session.user = { id: user._id, username: user.username };
 
-  res.json({ message: 'Login successful' });
-});
+    res.json({ message: 'Login successful' });
+    }
+    catch{
+    res.status(500).json({ error: 'Internal Server Error' });
+    }}
+);
+
 
 router.get('/check-auth', (req, res) => {
   try {

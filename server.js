@@ -61,7 +61,7 @@ app.use('/api/candidates',candidateRoutes);
 
 app.use(cookieSession({
   name: 'session',
-  keys: [hashkey],
+  keys: hashkey,
   maxAge: 60 * 60 * 1000, // 1 hour
   httpOnly: true,
   secure: true, // true if HTTPS
