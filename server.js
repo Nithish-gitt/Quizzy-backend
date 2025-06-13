@@ -3,7 +3,6 @@ const nodemailer = require('nodemailer');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const cookieSession = require('cookie-session');
 
@@ -23,7 +22,6 @@ app.use(express.json());
 
 app.use(cors({
   origin: server, // or '*' for all origins (not recommended in production)
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true // if you're sending cookies or authorization headers
 }));
 
@@ -62,8 +60,8 @@ app.use(cookieSession({
   name: 'session',
   keys: [hashkey],
   maxAge: 60 * 60 * 1000, // 1 hour
-  httpOnly: false,
-  secure: true, // true if HTTPS
+  httpOnly: true,
+  secure: false, // true if HTTPS
   sameSite: 'none',
 }));
 
