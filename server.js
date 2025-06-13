@@ -3,8 +3,9 @@ const nodemailer = require('nodemailer');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const MongoStore = require('connect-mongo');
 const cookieSession = require('cookie-session');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 
 const loginRoutes = require('./routes/Middleware/login');
 const uploadRoutes = require('./routes/upload');
@@ -56,13 +57,18 @@ app.use('/api/candidates',candidateRoutes);
 
 //sessions
 
-app.use(cookieSession({
-  name: 'session',
-  keys: [hashkey],
-  maxAge: 60 * 60 * 1000, // 1 hour
-  httpOnly: true,
-  secure: false, // true if HTTPS
-  sameSite: 'none',
+
+
+app.use(session({
+  secret: hashkey,
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({ mongoUrl: mongo_url }),
+  cookie: {
+    httpOnly: true,
+    secure: true,  // Required for HTTPS
+    sameSite: 'None'  // Required for cross-origin cookies
+  }
 }));
 app.use(express.json());
 app.use(bodyParser.json());
