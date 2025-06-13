@@ -59,16 +59,13 @@ app.use('/api/candidates',candidateRoutes);
 
 
 
-app.use(session({
-  secret: hashkey,
-  resave: false,
-  saveUninitialized: false,
-  store: MongoStore.create({ mongoUrl: mongo_url }),
-  cookie: {
-    httpOnly: true,
-    secure: false,  // Required for HTTPS
-    sameSite: 'None'  // Required for cross-origin cookies
-  }
+app.use(cookieSession({
+  name: 'session',
+  keys: [hashkey],
+  maxAge: 60 * 60 * 1000, // 1 hour
+  httpOnly: true,         // Prevent client-side JS from accessing the cookie
+  secure: false,           // ✅ Required for HTTPS (Render)
+  sameSite: 'none'        // ✅ Required for cross-origin cookies
 }));
 app.use(express.json());
 app.use(bodyParser.json());
