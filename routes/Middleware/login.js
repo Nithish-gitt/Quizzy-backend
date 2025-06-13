@@ -23,8 +23,9 @@ router.post('/login', async (req, res) => {
 });
 
 router.get('/check-auth', (req, res) => {
-  const {user} = req.session.user;
-  console.log('/check-auth-logs',user,req.session.user);
+  // const {user} = req.session.user;
+  console.log(req.session);
+  console.log('/check-auth-logs',req.session.user.username);
   if (req.session?.user) {
     return res.json({ authenticated: true, user: req.session.user });
   }
