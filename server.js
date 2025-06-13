@@ -24,6 +24,7 @@ dotenv.config();
 app.use(cors({
   origin: server, // or '*' for all origins (not recommended in production)
   credentials: true // if you're sending cookies or authorization headers
+   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
 }));
 
 app.use('/api/auth', authRoutes);
