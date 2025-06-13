@@ -15,6 +15,7 @@ router.post('/login', async (req, res) => {
     req.session.user = { id: user._id, username: user.username };
 
     res.json({ message: 'Login successful' });
+    console.log(req.session.user);
   } catch (err) {
     console.error('Login error:', err);
     res.status(500).json({ message: 'Server error' });
@@ -22,6 +23,8 @@ router.post('/login', async (req, res) => {
 });
 
 router.get('/check-auth', (req, res) => {
+  const {user} = req.session.user;
+  console.log('/check-auth-logs',user);
   if (req.session?.user) {
     return res.json({ authenticated: true, user: req.session.user });
   }
