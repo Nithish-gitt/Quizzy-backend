@@ -62,7 +62,7 @@ app.use(cookieSession({
   name: 'session',
   keys: [hashkey],
   maxAge: 60 * 60 * 1000, // 1 hour
-  // httpOnly: true,
+  httpOnly: false,
   secure: true, // true if HTTPS
   sameSite: 'none',
 }));
