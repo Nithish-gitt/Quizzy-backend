@@ -64,7 +64,7 @@ app.use(cookieSession({
   keys: [hashkey],
   maxAge: 60 * 60 * 1000, // 1 hour
   httpOnly: true,         // Prevent client-side JS from accessing the cookie
-  secure: false,           // ✅ Required for HTTPS (Render)
+  secure: true,           // ✅ Required for HTTPS (Render)
   sameSite: 'none'        // ✅ Required for cross-origin cookies
 }));
 app.use(express.json());
