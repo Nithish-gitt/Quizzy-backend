@@ -19,7 +19,7 @@ const app = express();
 const dotenv = require('dotenv');
 const { server, mongo_url, hashkey } = require('./variables/variables');
 dotenv.config();
-// app.use(express.json());
+app.use(express.json());
 
 app.use(cors({
   origin: server,  // ✅ Your frontend (GitHub Pages)
