@@ -5,12 +5,10 @@ const FileSetPublic = require('../models/FileSetPublic')
 
 // POST /api/upload
 router.post('/', async (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', 'https://nithish-gitt.github.io');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-
   const { username, Testname, questionsText, keyText, makePublic } = req.body;
   const testVisibility = makePublic === true ? 'public' : 'private';
 
+  // Basic validation
   if (!username || !Testname || !questionsText || !keyText) {
     return res.status(400).json({
       error: 'Missing required fields (username, Testname, questionsText, keyText)',
@@ -19,6 +17,7 @@ router.post('/', async (req, res) => {
 
   try {
     if (testVisibility === 'private') {
+      // Check for duplicate in private FileSet
       const existingFileSet = await FileSet.findOne({ username, Testname });
       if (existingFileSet) {
         return res.status(409).json({
@@ -26,6 +25,7 @@ router.post('/', async (req, res) => {
         });
       }
 
+      // Save to private collection
       const newFileSet = new FileSet({
         username,
         Testname,
@@ -40,6 +40,7 @@ router.post('/', async (req, res) => {
         fileSetId: newFileSet._id,
       });
     } else {
+      // Check for duplicate public test name
       const existingPublicTest = await FileSetPublic.findOne({ Testname });
       if (existingPublicTest) {
         return res.status(409).json({
@@ -47,6 +48,7 @@ router.post('/', async (req, res) => {
         });
       }
 
+      // Save to public collection
       const newPublicFileSet = new FileSetPublic({
         username,
         Testname,
@@ -66,7 +68,6 @@ router.post('/', async (req, res) => {
     res.status(500).json({ error: 'Internal server error during file upload.' });
   }
 });
-
 
 
 router.get('/tests/:username', async (req, res) => {
