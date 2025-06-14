@@ -29,6 +29,8 @@ app.use(cors({
   exposedHeaders: ['Set-Cookie']
 }));
 
+app.options('*', cors());
+
 app.use('/api/auth', authRoutes);
 app.use('/api/upload',uploadRoutes);
 app.use('/api/quiz',quizRoutes);
@@ -42,6 +44,7 @@ const transporter = nodemailer.createTransport({
     pass: 'zwrc uugt wnit ebph' // not your Gmail password
   }
 });
+
 
 //--Mongo Connections
 const MONGO_URI = mongo_url
