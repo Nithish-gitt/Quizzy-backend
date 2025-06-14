@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
     const testname = req.query.testname;
     const testVisibility = req.query.testVisibility;
     var contacts;
-    if (testVisibility) {
+    if ((testname.includes('(publicTest)')) || testVisibility) {
        contacts = await FileSetPublic.find({ Testname: testname.replace(' (publicTest)', '').trim() }).sort({ createdAt: -1 });
 
     } else {
