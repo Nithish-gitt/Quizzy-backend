@@ -22,8 +22,11 @@ dotenv.config();
 // app.use(express.json());
 
 app.use(cors({
-  origin: server, // or '*' for all origins (not recommended in production)
-  credentials: true // if you're sending cookies or authorization headers
+  origin: server,  // ✅ Your frontend (GitHub Pages)
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  exposedHeaders: ['Set-Cookie']
 }));
 
 app.use('/api/auth', authRoutes);
@@ -59,13 +62,19 @@ app.use('/api/candidates',candidateRoutes);
 
 
 
-app.use(cookieSession({
+app.set('trust proxy', 1); // required by render behind proxy
+
+app.use(session({
   name: 'session',
-  keys: hashkey,
-  maxAge: 60 * 60 * 1000, // 1 hour
-  httpOnly: true,
-  secure: true, // true if HTTPS
-  sameSite: 'none',
+  secret: hashkey,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    secure: true,        // must be true for HTTPS
+    sameSite: 'none',    // required for cross-origin
+    maxAge: 60 * 60 * 1000 // 1 hour
+  }
 }));
 app.use(express.json());
 app.use(bodyParser.json());
